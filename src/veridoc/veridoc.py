@@ -1,10 +1,15 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+from jinja2 import Template
 import verilog_parser as parser
 
-vlog = parser.VerilogExtractor()
 
 code = """
-//# metaco
-module igor
+/* block
+ * comment
+ * 2
+ */
+module Module1
 #(
     parameter WIDTH = 64
 )
@@ -18,20 +23,33 @@ module igor
 endmodule
 """
 
-modules = vlog.extract_objects_from_source(code)
 
-for m in modules:
-    print(f'Module "{m.name}":')
-    print(f'{m.desc}')
+module_html_template = '''
+Module "{{ m.name }}":
+{{m.desc}}
 
-    print('\n    Parameters:')
-    for prm in m.generics:
-        print(f'        {prm.name:8} {prm.mode:8} {prm.data_type}')
+    Parameters:
+    {%- for prm in m.generics %}
+        {{'%-8s'|format(prm.name)}} {{'%-8s'|format(prm.mode)}} {{prm.data_type -}}
+    {% endfor %}
 
-    print('\n    Ports:')
-    for port in m.ports:
-        print(f'        {port.name:8} {port.mode:8} {port.data_type}')
+    Portd:
+    {%- for port in m.ports %}
+        {{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}
+    {% endfor %}
+'''
 
-    print(f'{m.sections}')
-    #for bc in m.block_comment:
-    #    print('bc')
+def render_html_doc_file(modules):
+    template = Template(module_html_template)
+ 
+    for m in modules:
+        params = {'m': m}
+        print(template.render(params))
+
+def parse_vlog(code):
+    vlog = parser.VerilogExtractor()
+    modules = vlog.extract_objects_from_source(code)
+    return modules
+
+modules = parse_vlog(code)
+render_html_doc_file(modules)

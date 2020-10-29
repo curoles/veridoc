@@ -1,5 +1,5 @@
-veridoc
-=========
+veridoc - Verilog documentation generator
+=========================================
 
 References:
 

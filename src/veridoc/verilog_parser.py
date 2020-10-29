@@ -75,13 +75,13 @@ class VerilogParameter(object):
 
 class VerilogModule(VerilogObject):
   '''Module definition'''
-  def __init__(self, name, ports, generics=None, sections=None, desc=None):
+  def __init__(self, name, ports, generics=None, desc=None):
     VerilogObject.__init__(self, name, desc)
     self.kind = 'module'
     # Verilog params
     self.generics = generics if generics is not None else []
     self.ports = ports
-    self.sections = sections if sections is not None else {}
+    #self.sections = sections if sections is not None else {}
   def __repr__(self):
     return "VerilogModule('{}') {}".format(self.name, self.ports)
 
@@ -125,6 +125,9 @@ def parse_verilog(text):
   port_param_index = 0
   last_item = None
   array_range_start_pos = 0
+  doc_pos = None
+  doc_text = None
+  module_doc = None
 
   objects = []
 
@@ -138,6 +141,12 @@ def parse_verilog(text):
     if action == 'section_meta':
       sections.append((port_param_index, groups[0]))
 
+    elif action == 'block_comment':
+      doc_pos = pos[1] + 1
+
+    elif action == 'end_comment':
+      doc_text = text[doc_pos:pos[0]]
+
     elif action == 'module':
       kind = 'module'
       name = groups[0]
@@ -146,6 +155,7 @@ def parse_verilog(text):
       param_items = []
       sections = []
       port_param_index = 0
+      module_doc = doc_text
 
     elif action == 'parameter_start':
       net_type, vec_range = groups
@@ -198,7 +208,12 @@ def parse_verilog(text):
       for i in param_items:
         ports[i] = VerilogParameter(i, mode, ptype)
 
-      vobj = VerilogModule(name, ports.values(), generics, dict(sections), metacomments)
+      vobj = VerilogModule(
+        name,
+        ports.values(),
+        generics,
+        module_doc
+      )
       objects.append(vobj)
       last_item = None
       metacomments = []
