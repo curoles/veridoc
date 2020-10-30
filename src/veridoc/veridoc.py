@@ -1,8 +1,38 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import os, re, markdown
+#
+# Copyright (c) Igor Lesik 2020
+
+import sys, os, re, markdown, argparse
 from jinja2 import Template
 import verilog_parser as parser
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Generate Verilog documentation.')
+    #parser.add_argument('inputs',
+    #                    required=True,
+    #                    metavar='FILE',
+    #                    type=argparse.FileType('r'),
+    #                    nargs='+',
+    #                    help='Verilog file(s)')
+    parser.add_argument('-s', '--standalone',
+                        dest='standalone',
+                        required=False,
+                        default=False,
+                        action='store_true',
+                        help='produce standalone HTML file')
+    parser.add_argument('-o', '--output',
+                        required=False,
+                        dest='output',
+                        nargs='?',
+                        type=argparse.FileType('w'),
+                        default=sys.stdout,
+                        metavar='FILE',
+                        help='output file')
+    
+    args = parser.parse_args()
+
+    return args
 
 
 code = """
@@ -78,22 +108,43 @@ module_html_template = '''
 {{mdesc}}
 '''
 
-def render_html_doc_module(module):
+html_prolog = '''<!DOCTYPE html html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Verilog documentation</title>
+</head>
+<body>
+'''
+
+def render_html_file_prolog(output):
+    output.write(html_prolog)
+
+def render_html_file_epilog(output):
+    output.write("\n</body></html>\n")
+
+def render_html_doc_module(output, module):
     template = Template(module_html_template)
 
     mdesc = convert_module_comment_md2html(module.desc)
 
     params = {'hdr_level': '3', 'm': module, 'mdesc': mdesc}
-    print(template.render(params))
+    output.write(template.render(params))
 
-def render_html_doc_file(modules):
+def render_html_doc_file(output, modules, standalone=False):
+    if standalone:
+        render_html_file_prolog(output)
     for m in modules:
-        render_html_doc_module(m)
+        render_html_doc_module(output, m)
+    if standalone:
+        render_html_file_epilog(output)
 
 def parse_vlog(code):
     vlog = parser.VerilogExtractor()
     modules = vlog.extract_objects_from_source(code)
     return modules
 
+args = parse_args()
 modules = parse_vlog(code)
-render_html_doc_file(modules)
+render_html_doc_file(args.output, modules, args.standalone)
+args.output.flush()
