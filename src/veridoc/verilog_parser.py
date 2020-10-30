@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # Copyright © 2017 Kevin Thibedeau
+# Copyright © 2020 Igor Lesik
 # Distributed under the terms of the MIT license
 from __future__ import print_function
 
@@ -212,7 +213,7 @@ def parse_verilog(text):
         name,
         ports.values(),
         generics,
-        module_doc
+        re.sub(r'^\s*\*', '', module_doc, flags=re.MULTILINE)
       )
       objects.append(vobj)
       last_item = None
