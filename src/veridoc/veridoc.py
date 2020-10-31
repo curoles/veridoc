@@ -9,12 +9,12 @@ import verilog_parser as parser
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Generate Verilog documentation.')
-    #parser.add_argument('inputs',
-    #                    required=True,
-    #                    metavar='FILE',
-    #                    type=argparse.FileType('r'),
-    #                    nargs='+',
-    #                    help='Verilog file(s)')
+    parser.add_argument('inputs',
+                        #dest='inputs',
+                        metavar='FILE',
+                        type=argparse.FileType('r'),
+                        nargs='+',
+                        help='Verilog file(s)')
     parser.add_argument('-s', '--standalone',
                         dest='standalone',
                         required=False,
@@ -35,28 +35,6 @@ def parse_args():
     return args
 
 
-code = """
-/* block
- * comment
- * 2
- *
- * ```verilog
- * module M()
- * ```
- */
-module Module1
-#(
-    parameter WIDTH = 64
-)
-(
-    input wire clk, // clock signal
-    input wire rst, //# {meta1}
-    //# {meta2}
-    input wire [WIDTH-1:0] a
-)
-
-endmodule
-"""
 
 # Inspired by os.path.commonprefix
 #
@@ -99,7 +77,7 @@ module_html_template = '''
         {{'%-8s'|format(prm.name)}} {{'%-8s'|format(prm.mode)}} {{prm.data_type -}}
     {% endfor %}
 
-    Portd:
+    Ports:
     {%- for port in m.ports %}
         {{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}
     {% endfor %}
@@ -111,10 +89,16 @@ module_html_template = '''
 html_prolog = '''<!DOCTYPE html html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<title>Verilog documentation</title>
+    <title>Verilog documentation</title>
+
+    <!-- see https://github.com/wavedrom/wavedrom -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js" type="text/javascript"></script>
 </head>
-<body>
+
+<body onload="WaveDrom.ProcessAll()">
 '''
 
 def render_html_file_prolog(output):
@@ -144,7 +128,24 @@ def parse_vlog(code):
     modules = vlog.extract_objects_from_source(code)
     return modules
 
-args = parse_args()
-modules = parse_vlog(code)
-render_html_doc_file(args.output, modules, args.standalone)
-args.output.flush()
+def main():
+    args = parse_args()
+
+    modules = []
+
+    for vlog_file in args.inputs:
+        #TODO if not is_verilog_file(vlog_file.name):
+        #    continue
+        code = vlog_file.read()
+        new_modules = parse_vlog(code)
+        #TODO for new_module in new_modules:
+        #    new_module.path = vlog_file.name
+        modules.extend(new_modules)
+
+    if modules:
+        render_html_doc_file(args.output, modules, args.standalone)
+        args.output.flush()
+
+
+if __name__ == "__main__":
+    main()
