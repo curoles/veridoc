@@ -1,9 +1,7 @@
 TODO list
 =========
 
-#. Create some structured .v files in examples, generate example.html.
 #. Show file location, add module attr "path".
-#. Try comment with https://wavedrom.com/.
 #. Add option ``--toc``, show list of modules, sort by "path".
 #. Remove common prefix from module.path for all modules with  os.path.commonprefix.
 #. Add option ``--toc-sidebar`` or make it default layout, see frames with css.
@@ -17,3 +15,7 @@ TODO list
 
 DONE list
 =========
+
+#. Create GitHub Pages Veridoc web site https://curoles.github.io/veridoc/.
+#. Try comment with https://wavedrom.com/.
+#. Create some structured .v files in examples, generate example.html.
