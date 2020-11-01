@@ -1,0 +1,109 @@
+<!DOCTYPE html html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Verilog documentation</title>
+
+    <!-- see https://github.com/wavedrom/wavedrom -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js" type="text/javascript"></script>
+</head>
+
+<body onload="WaveDrom.ProcessAll()">
+
+<h3>Module "OAI22"</h3>
+
+<pre>
+Parameters:
+    WIDTH    in       
+
+Ports:
+    in1      input    wire [WIDTH-1:0]
+    in2      input    wire [WIDTH-1:0]
+    in3      input    wire [WIDTH-1:0]
+    in4      input    wire [WIDTH-1:0]
+    out      output   wire [WIDTH-1:0]
+</pre>
+
+<p>Complex gate OR-AND-Invertor</p>
+<div class="codehilite"><pre><span></span><code><span class="c"> in1 </span><span class="nb">----------+--</span><span class="c">\</span>
+<span class="c">               )OR </span><span class="nb">+----+</span><span class="c"></span>
+<span class="c"> in2 </span><span class="nb">----------+--</span><span class="c">/|    |</span>
+<span class="c">                   |NAND|o</span><span class="nb">-----</span><span class="c"></span>
+<span class="c"> in3 </span><span class="nb">----------+--</span><span class="c">\|    |</span>
+<span class="c">               )OR </span><span class="nb">+----+</span><span class="c"></span>
+<span class="c"> in4 </span><span class="nb">----------+--</span><span class="c">/</span>
+</code></pre></div>
+
+<script type="WaveDrom">
+{ assign:[
+  ["out",
+    ["~&",
+      ["|", "in1", "in2"],
+      ["|", "in3", "in4"]
+    ]
+  ]
+]}
+</script>
+<pre>module OAI22 #(
+    parameter WIDTH = 8
+)(
+    input  wire [WIDTH-1:0] in1,
+    input  wire [WIDTH-1:0] in2,
+    input  wire [WIDTH-1:0] in3,
+    input  wire [WIDTH-1:0] in4,
+    output wire [WIDTH-1:0] out
+);
+
+    assign out = ~((in1 | in2) & (in3 | in4));
+
+endmodule</pre>
+
+<h3>Module "Not"</h3>
+
+<pre>
+Parameters:
+
+Ports:
+    out      output   wire
+    in       input    wire
+</pre>
+
+<p>CMOS inverter</p>
+<p>See book by Yamin Li, Computer principles and design in Verilog HDL.</p>
+<div class="codehilite"><pre><span></span><code><span class="err">          +-------+-----+ vdd</span>
+<span class="err">                  |</span>
+<span class="err">              +   |</span>
+<span class="err">            + +---+</span>
+<span class="err">      +----o| |      p1</span>
+<span class="err">      |     + +---+</span>
+<span class="err">      |       +   |</span>
+<span class="err">      |           |</span>
+<span class="err"> +----+           +------+</span>
+<span class="err">      |           |</span>
+<span class="err">      |       +   |</span>
+<span class="err">      |     + +---+</span>
+<span class="err">      +-----+ |     n1</span>
+<span class="err">            + +---+</span>
+<span class="err">              +   |</span>
+<span class="err">                  |</span>
+<span class="err">                  |</span>
+<span class="err">        +---------+----+ gnd</span>
+</code></pre></div>
+<pre>module Not(
+    output wire out, // out = ~in
+    input wire in
+);
+    supply1 vdd; // logic 1 (power)
+    supply0 gnd; // logic 0 (ground)
+
+    // pmos (drain, source, gate);
+    pmos p1 (out, vdd, in);
+
+    // nmos (drain, source, gate);
+    nmos n1 (out, gnd, in);
+
+endmodule</pre>
+
+</body></html>

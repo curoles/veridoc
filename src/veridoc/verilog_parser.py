@@ -76,13 +76,15 @@ class VerilogParameter(object):
 
 class VerilogModule(VerilogObject):
   '''Module definition'''
-  def __init__(self, name, ports, generics=None, desc=None):
+
+  def __init__(self, name, ports, generics=None, desc=None, body=None):
     VerilogObject.__init__(self, name, desc)
     self.kind = 'module'
     # Verilog params
     self.generics = generics if generics is not None else []
     self.ports = ports
-    #self.sections = sections if sections is not None else {}
+    self.body = body
+
   def __repr__(self):
     return "VerilogModule('{}') {}".format(self.name, self.ports)
 
@@ -129,6 +131,8 @@ def parse_verilog(text):
   doc_pos = None
   doc_text = None
   module_doc = None
+  module_pos = None
+  module_text = None
 
   objects = []
 
@@ -157,6 +161,7 @@ def parse_verilog(text):
       sections = []
       port_param_index = 0
       module_doc = doc_text
+      module_pos = pos[0]
 
     elif action == 'parameter_start':
       net_type, vec_range = groups
@@ -213,7 +218,8 @@ def parse_verilog(text):
         name,
         ports.values(),
         generics,
-        re.sub(r'^\s*\*', '', module_doc, flags=re.MULTILINE)
+        re.sub(r'^\s*\*', '', module_doc, flags=re.MULTILINE),
+        text[module_pos:(pos[1] + 1)]
       )
       objects.append(vobj)
       last_item = None

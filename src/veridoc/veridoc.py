@@ -15,12 +15,6 @@ def parse_args():
                         type=argparse.FileType('r'),
                         nargs='+',
                         help='Verilog file(s)')
-    parser.add_argument('-s', '--standalone',
-                        dest='standalone',
-                        required=False,
-                        default=False,
-                        action='store_true',
-                        help='produce standalone HTML file')
     parser.add_argument('-o', '--output',
                         required=False,
                         dest='output',
@@ -29,7 +23,20 @@ def parse_args():
                         default=sys.stdout,
                         metavar='FILE',
                         help='output file')
-    
+    parser.add_argument('-s', '--standalone',
+                        dest='standalone',
+                        required=False,
+                        default=False,
+                        action='store_true',
+                        help='produce standalone HTML file')
+    parser.add_argument('--inline',
+                        dest='inline',
+                        required=False,
+                        default=False,
+                        action='store_true',
+                        help='embed Verilog source code')
+
+
     args = parser.parse_args()
 
     return args
@@ -72,18 +79,22 @@ module_html_template = '''
 <h{{hdr_level}}>Module "{{ m.name }}"</h{{hdr_level}}>
 
 <pre>
-    Parameters:
-    {%- for prm in m.generics %}
-        {{'%-8s'|format(prm.name)}} {{'%-8s'|format(prm.mode)}} {{prm.data_type -}}
-    {% endfor %}
+Parameters:
+{%- for prm in m.generics %}
+    {{'%-8s'|format(prm.name)}} {{'%-8s'|format(prm.mode)}} {{prm.data_type -}}
+{% endfor %}
 
-    Ports:
-    {%- for port in m.ports %}
-        {{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}
-    {% endfor %}
+Ports:
+{%- for port in m.ports %}
+    {{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}
+{% endfor %}
 </pre>
 
 {{mdesc}}
+
+{%- if show_source %}
+<pre>{{ m.body }}</pre>
+{% endif %}
 '''
 
 html_prolog = '''<!DOCTYPE html html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
@@ -107,19 +118,19 @@ def render_html_file_prolog(output):
 def render_html_file_epilog(output):
     output.write("\n</body></html>\n")
 
-def render_html_doc_module(output, module):
+def render_html_doc_module(output, module, show_source=False):
     template = Template(module_html_template)
 
     mdesc = convert_module_comment_md2html(module.desc)
 
-    params = {'hdr_level': '3', 'm': module, 'mdesc': mdesc}
+    params = {'hdr_level': '3', 'm': module, 'mdesc': mdesc, 'show_source': show_source}
     output.write(template.render(params))
 
-def render_html_doc_file(output, modules, standalone=False):
+def render_html_doc_file(output, modules, standalone=False, show_source=False):
     if standalone:
         render_html_file_prolog(output)
     for m in modules:
-        render_html_doc_module(output, m)
+        render_html_doc_module(output, m, show_source)
     if standalone:
         render_html_file_epilog(output)
 
@@ -143,7 +154,12 @@ def main():
         modules.extend(new_modules)
 
     if modules:
-        render_html_doc_file(args.output, modules, args.standalone)
+        render_html_doc_file(
+            output=args.output,
+            modules=modules,
+            standalone=args.standalone,
+            show_source=args.inline
+        )
         args.output.flush()
 
 
