@@ -2,7 +2,7 @@
  *
  * See book by Yamin Li, Computer principles and design in Verilog HDL.
  *
- * ```
+ * <pre>
  *           +-------+-----+ vdd
  *                   |
  *               +   |
@@ -21,7 +21,7 @@
  *                   |
  *                   |
  *         +---------+----+ gnd
- * ``` 
+ * </pre>
  *  
  */
 module Not(

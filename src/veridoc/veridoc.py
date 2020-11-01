@@ -70,7 +70,7 @@ def convert_module_comment_md2html(md_text):
     common_prefix = common_space_prefix(md_text.splitlines())
     md_text = re.sub(r'^'+common_prefix, '', md_text, flags=re.MULTILINE)
 
-    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
+    html = markdown.markdown(md_text, extensions=['fenced_code']) #, 'codehilite'])
 
     return html
 
@@ -93,20 +93,33 @@ Ports:
 {{mdesc}}
 
 {%- if show_source %}
-<pre>{{ m.body }}</pre>
+<p>Source code:</p>
+<pre><code class="lang-verilog">{{ m.body }}</code></pre>
 {% endif %}
+
+<hr />
 '''
 
-html_prolog = '''<!DOCTYPE html html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+html_prolog = f'''<!DOCTYPE html html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>Verilog documentation</title>
 
+    <link rel="stylesheet" href="https://yarnpkg.com/en/package/normalize.css">
+
     <!-- see https://github.com/wavedrom/wavedrom -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js" type="text/javascript"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+    <!--style>
+     os.popen('pygmentize -S default -f html -a .codehilite').read()
+    </style-->
 </head>
 
 <body onload="WaveDrom.ProcessAll()">

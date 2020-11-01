@@ -1,7 +1,7 @@
 /* Complex gate OR-AND-Invertor
  *
  *
- * ```
+ * <pre>
  *  in1 ----------+--\
  *                )OR +----+
  *  in2 ----------+--/|    |
@@ -9,7 +9,7 @@
  *  in3 ----------+--\|    |
  *                )OR +----+
  *  in4 ----------+--/
- * ```
+ * </pre>
  *
  * <script type="WaveDrom">
  * { assign:[
