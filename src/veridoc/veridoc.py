@@ -83,8 +83,8 @@ def convert_module_comment_md2html(md_text):
 
 
 module_html_template = '''
-<h{{hdr_level}} id="module_{{m.name}}">
-Module "{{ m.name }}"
+<h{{hdr_level}} id="module_{{m.path}}">
+Module "{{ m.name }}", {{m.path}}
 </h{{hdr_level}}>
 
 <pre>
@@ -144,6 +144,14 @@ def parse_vlog(code):
     modules = vlog.extract_objects_from_source(code)
     return modules
 
+def normalize_path(modules):
+    paths = [m.path for m in modules]
+    common_prefix = os.path.commonprefix(paths)
+    for m in modules:
+        m.path = m.path.replace(common_prefix, '')
+
+    modules.sort(key=lambda m: m.path, reverse=False)
+
 def main():
     args = parse_args()
 
@@ -154,9 +162,11 @@ def main():
         #    continue
         code = vlog_file.read()
         new_modules = parse_vlog(code)
-        #TODO for new_module in new_modules:
-        #    new_module.path = vlog_file.name
+        for new_module in new_modules:
+            new_module.path = vlog_file.name
         modules.extend(new_modules)
+
+    normalize_path(modules)
 
     if modules:
         render_html_doc_file(

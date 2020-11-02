@@ -145,63 +145,9 @@ p {font-family: Verdana, Geneva, sans-serif;}
 </head>
 
 <body onload="WaveDrom.ProcessAll()">
-
-<h3 id="module_OAI22">
-Module "OAI22, ./examples/../examples/rtl/lib/gates/generic/OAI22.sv"
-</h3>
-
-<pre>
-Parameters:
-    WIDTH    in       
-
-Ports:
-    in1      input    wire [WIDTH-1:0]
-    in2      input    wire [WIDTH-1:0]
-    in3      input    wire [WIDTH-1:0]
-    in4      input    wire [WIDTH-1:0]
-    out      output   wire [WIDTH-1:0]
-</pre>
-
-<p>Complex gate OR-AND-Invertor</p>
-<pre>
- in1 ----------+--\
-               )OR +----+
- in2 ----------+--/|    |
-                   |NAND|o-----
- in3 ----------+--\|    |
-               )OR +----+
- in4 ----------+--/
-</pre>
-
-<script type="WaveDrom">
-{ assign:[
-  ["out",
-    ["~&",
-      ["|", "in1", "in2"],
-      ["|", "in3", "in4"]
-    ]
-  ]
-]}
-</script>
-<p>Source code:</p>
-<pre><code class="lang-verilog">module OAI22 #(
-    parameter WIDTH = 8
-)(
-    input  wire [WIDTH-1:0] in1,
-    input  wire [WIDTH-1:0] in2,
-    input  wire [WIDTH-1:0] in3,
-    input  wire [WIDTH-1:0] in4,
-    output wire [WIDTH-1:0] out
-);
-
-    assign out = ~((in1 | in2) & (in3 | in4));
-
-endmodule</code></pre>
-
-
-<hr />
-<h3 id="module_Not">
-Module "Not, ./examples/../examples/rtl/lib/gates/cmos/Not.sv"
+<div class="sidenav">    <a href="#module_cmos/Not.sv">Not</a>    <a href="#module_generic/OAI22.sv">OAI22</a></div><div class="main">
+<h3 id="module_cmos/Not.sv">
+Module "Not", cmos/Not.sv
 </h3>
 
 <pre>
@@ -239,22 +185,45 @@ Ports:
                   |
         +---------+----+ gnd
 </pre>
-<p>Source code:</p>
-<pre><code class="lang-verilog">module Not(
-    output wire out, // out = ~in
-    input wire in
-);
-    supply1 vdd; // logic 1 (power)
-    supply0 gnd; // logic 0 (ground)
-
-    // pmos (drain, source, gate);
-    pmos p1 (out, vdd, in);
-
-    // nmos (drain, source, gate);
-    nmos n1 (out, gnd, in);
-
-endmodule</code></pre>
-
 
 <hr />
+<h3 id="module_generic/OAI22.sv">
+Module "OAI22", generic/OAI22.sv
+</h3>
+
+<pre>
+Parameters:
+    WIDTH    in       
+
+Ports:
+    in1      input    wire [WIDTH-1:0]
+    in2      input    wire [WIDTH-1:0]
+    in3      input    wire [WIDTH-1:0]
+    in4      input    wire [WIDTH-1:0]
+    out      output   wire [WIDTH-1:0]
+</pre>
+
+<p>Complex gate OR-AND-Invertor</p>
+<pre>
+ in1 ----------+--\
+               )OR +----+
+ in2 ----------+--/|    |
+                   |NAND|o-----
+ in3 ----------+--\|    |
+               )OR +----+
+ in4 ----------+--/
+</pre>
+
+<script type="WaveDrom">
+{ assign:[
+  ["out",
+    ["~&",
+      ["|", "in1", "in2"],
+      ["|", "in3", "in4"]
+    ]
+  ]
+]}
+</script>
+
+<hr /></div>
 </body></html>

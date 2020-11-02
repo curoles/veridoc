@@ -84,6 +84,7 @@ class VerilogModule(VerilogObject):
     self.generics = generics if generics is not None else []
     self.ports = ports
     self.body = body
+    self.path = name
 
   def __repr__(self):
     return "VerilogModule('{}') {}".format(self.name, self.ports)

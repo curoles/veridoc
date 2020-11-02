@@ -88,5 +88,5 @@ def render_html_file_epilog(output):
 def render_sidebar(output, modules):
     output.write('<div class="sidenav">')
     for m in modules:
-        output.write(f'    <a href="#module_{m.name}">{m.name}</a>');
+        output.write(f'    <a href="#module_{m.path}">{m.name}</a>');
     output.write('</div>')

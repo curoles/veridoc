@@ -1,9 +1,7 @@
 TODO list
 =========
 
-#. Show file location, add module attr "path".
 #. Add option ``--toc``, show list of modules, sort by "path".
-#. Remove common prefix from module.path for all modules with  os.path.commonprefix.
 #. Add option ``--filelist`` as in Verilog; process file list.
 #. document dark_circuit and add link to it in README as an example
 #. css to have fixed/limited width of html body, ``--html-width Nel/px``.
@@ -13,6 +11,8 @@ TODO list
 DONE list
 =========
 
+#. Remove common prefix from module.path for all modules with  os.path.commonprefix.
+#. Show file location, add module attr "path".
 #. Add option ``--toc-sidebar``.
 #. Create GitHub Pages Veridoc web site https://curoles.github.io/veridoc/.
 #. Try comment with https://wavedrom.com/.
