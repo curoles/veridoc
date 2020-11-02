@@ -6,6 +6,7 @@
 import sys, os, re, markdown, argparse
 from jinja2 import Template
 import verilog_parser as parser
+import render_html
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Generate Verilog documentation.')
@@ -35,6 +36,12 @@ def parse_args():
                         default=False,
                         action='store_true',
                         help='embed Verilog source code')
+    parser.add_argument('--toc-sidebar',
+                        dest='toc_sidebar',
+                        required=False,
+                        default=False,
+                        action='store_true',
+                        help='show TOC in sidebar')
 
 
     args = parser.parse_args()
@@ -70,13 +77,15 @@ def convert_module_comment_md2html(md_text):
     common_prefix = common_space_prefix(md_text.splitlines())
     md_text = re.sub(r'^'+common_prefix, '', md_text, flags=re.MULTILINE)
 
-    html = markdown.markdown(md_text, extensions=['fenced_code']) #, 'codehilite'])
+    html = markdown.markdown(md_text, extensions=['fenced_code', 'codehilite'])
 
     return html
 
 
 module_html_template = '''
-<h{{hdr_level}}>Module "{{ m.name }}"</h{{hdr_level}}>
+<h{{hdr_level}} id="module_{{m.name}}">
+Module "{{ m.name }}"
+</h{{hdr_level}}>
 
 <pre>
 Parameters:
@@ -100,36 +109,6 @@ Ports:
 <hr />
 '''
 
-html_prolog = f'''<!DOCTYPE html html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-
-<head>
-    <title>Verilog documentation</title>
-
-    <link rel="stylesheet" href="https://yarnpkg.com/en/package/normalize.css">
-
-    <!-- see https://github.com/wavedrom/wavedrom -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/skins/default.js" type="text/javascript"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/wavedrom/2.6.8/wavedrom.min.js" type="text/javascript"></script>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/themes/prism.css" rel="stylesheet" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js"></script>
-
-    <!--style>
-     os.popen('pygmentize -S default -f html -a .codehilite').read()
-    </style-->
-</head>
-
-<body onload="WaveDrom.ProcessAll()">
-'''
-
-def render_html_file_prolog(output):
-    output.write(html_prolog)
-
-def render_html_file_epilog(output):
-    output.write("\n</body></html>\n")
 
 def render_html_doc_module(output, module, show_source=False):
     template = Template(module_html_template)
@@ -139,13 +118,26 @@ def render_html_doc_module(output, module, show_source=False):
     params = {'hdr_level': '3', 'm': module, 'mdesc': mdesc, 'show_source': show_source}
     output.write(template.render(params))
 
-def render_html_doc_file(output, modules, standalone=False, show_source=False):
+def render_html_doc_file(
+    output,
+    modules,
+    standalone=False,
+    show_source=False,
+    toc_sidebar=False
+):
     if standalone:
-        render_html_file_prolog(output)
+        render_html.render_html_file_prolog(output)
+        if toc_sidebar:
+            render_html.render_sidebar(output, modules)
+            output.write('<div class="main">')
+
     for m in modules:
         render_html_doc_module(output, m, show_source)
+
     if standalone:
-        render_html_file_epilog(output)
+        if toc_sidebar:
+            output.write('</div>')
+        render_html.render_html_file_epilog(output)
 
 def parse_vlog(code):
     vlog = parser.VerilogExtractor()
@@ -171,7 +163,8 @@ def main():
             output=args.output,
             modules=modules,
             standalone=args.standalone,
-            show_source=args.inline
+            show_source=args.inline,
+            toc_sidebar=args.toc_sidebar
         )
         args.output.flush()
 

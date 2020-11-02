@@ -1,5 +1,12 @@
 /* CMOS inverter
  *
+ * Inverter Verilog code uses keywords `pmos` and `nmos`:
+ *
+ * ```verilog
+ *  pmos p1 (out, vdd, in); // out = HI(vdd) if in is LO
+ *  nmos n1 (out, gnd, in); // out = LO(gnd) if in is HI
+ * ```
+ *
  * See book by Yamin Li, Computer principles and design in Verilog HDL.
  *
  * <pre>

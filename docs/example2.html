@@ -15,14 +15,140 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/components/prism-core.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.22.0/plugins/autoloader/prism-autoloader.min.js"></script>
 
-    <!--style>
-     os.popen('pygmentize -S default -f html -a .codehilite').read()
-    </style-->
+    <style>
+    pre { line-height: 125%; margin: 0; }
+td.linenos pre { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #000000; background-color: #f0f0f0; padding-left: 5px; padding-right: 5px; }
+td.linenos pre.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.codehilite .hll { background-color: #ffffcc }
+.codehilite .c { color: #408080; font-style: italic } /* Comment */
+.codehilite .err { border: 1px solid #FF0000 } /* Error */
+.codehilite .k { color: #008000; font-weight: bold } /* Keyword */
+.codehilite .o { color: #666666 } /* Operator */
+.codehilite .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.codehilite .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.codehilite .cp { color: #BC7A00 } /* Comment.Preproc */
+.codehilite .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.codehilite .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.codehilite .cs { color: #408080; font-style: italic } /* Comment.Special */
+.codehilite .gd { color: #A00000 } /* Generic.Deleted */
+.codehilite .ge { font-style: italic } /* Generic.Emph */
+.codehilite .gr { color: #FF0000 } /* Generic.Error */
+.codehilite .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.codehilite .gi { color: #00A000 } /* Generic.Inserted */
+.codehilite .go { color: #888888 } /* Generic.Output */
+.codehilite .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.codehilite .gs { font-weight: bold } /* Generic.Strong */
+.codehilite .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.codehilite .gt { color: #0044DD } /* Generic.Traceback */
+.codehilite .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.codehilite .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.codehilite .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.codehilite .kp { color: #008000 } /* Keyword.Pseudo */
+.codehilite .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.codehilite .kt { color: #B00040 } /* Keyword.Type */
+.codehilite .m { color: #666666 } /* Literal.Number */
+.codehilite .s { color: #BA2121 } /* Literal.String */
+.codehilite .na { color: #7D9029 } /* Name.Attribute */
+.codehilite .nb { color: #008000 } /* Name.Builtin */
+.codehilite .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.codehilite .no { color: #880000 } /* Name.Constant */
+.codehilite .nd { color: #AA22FF } /* Name.Decorator */
+.codehilite .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.codehilite .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.codehilite .nf { color: #0000FF } /* Name.Function */
+.codehilite .nl { color: #A0A000 } /* Name.Label */
+.codehilite .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.codehilite .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.codehilite .nv { color: #19177C } /* Name.Variable */
+.codehilite .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.codehilite .w { color: #bbbbbb } /* Text.Whitespace */
+.codehilite .mb { color: #666666 } /* Literal.Number.Bin */
+.codehilite .mf { color: #666666 } /* Literal.Number.Float */
+.codehilite .mh { color: #666666 } /* Literal.Number.Hex */
+.codehilite .mi { color: #666666 } /* Literal.Number.Integer */
+.codehilite .mo { color: #666666 } /* Literal.Number.Oct */
+.codehilite .sa { color: #BA2121 } /* Literal.String.Affix */
+.codehilite .sb { color: #BA2121 } /* Literal.String.Backtick */
+.codehilite .sc { color: #BA2121 } /* Literal.String.Char */
+.codehilite .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.codehilite .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.codehilite .s2 { color: #BA2121 } /* Literal.String.Double */
+.codehilite .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.codehilite .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.codehilite .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.codehilite .sx { color: #008000 } /* Literal.String.Other */
+.codehilite .sr { color: #BB6688 } /* Literal.String.Regex */
+.codehilite .s1 { color: #BA2121 } /* Literal.String.Single */
+.codehilite .ss { color: #19177C } /* Literal.String.Symbol */
+.codehilite .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.codehilite .fm { color: #0000FF } /* Name.Function.Magic */
+.codehilite .vc { color: #19177C } /* Name.Variable.Class */
+.codehilite .vg { color: #19177C } /* Name.Variable.Global */
+.codehilite .vi { color: #19177C } /* Name.Variable.Instance */
+.codehilite .vm { color: #19177C } /* Name.Variable.Magic */
+.codehilite .il { color: #666666 } /* Literal.Number.Integer.Long */
+    </style>
+
+    <style>
+p {font-family: Verdana, Geneva, sans-serif;}
+
+ /* The sidebar menu */
+.sidenav {
+  height: 100%; /* Full-height: remove this if you want "auto" height */
+  width: 10rem; /* Set the width of the sidebar */
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  top: 0; /* Stay at the top */
+  left: 0;
+  background-color: #f0f0f0;
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 1rem;
+}
+
+/* The navigation menu links */
+.sidenav a {
+  padding: 6px 8px 6px 0.5rem;
+  text-decoration: none;
+  font-size: 1rem;
+  color: black;
+  display: block;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+  color: blue;
+  background-color: #e0e0e0;
+}
+
+/* Active/current link */
+.sidenav a:active {
+  color: #e0e0e0;
+  background-color: blue;
+}
+
+/* Style page content */
+.main {
+  margin-left: 10rem; /* Same as the width of the sidebar */
+  padding: 0px 10px;
+}
+
+/* On smaller screens, where height is less than 450px,
+ * change the style of the sidebar (less padding and a smaller font size)
+ */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 0.5rem;}
+  .sidenav a {font-size: 0.5rem;}
+}
+</style>
 </head>
 
 <body onload="WaveDrom.ProcessAll()">
-
-<h3>Module "OAI22"</h3>
+<div class="sidenav">    <a href="#module_OAI22">OAI22</a>    <a href="#module_Not">Not</a></div><div class="main">
+<h3 id="module_OAI22">
+Module "OAI22"
+</h3>
 
 <pre>
 Parameters:
@@ -57,24 +183,11 @@ Ports:
   ]
 ]}
 </script>
-<p>Source code:</p>
-<pre><code class="lang-verilog">module OAI22 #(
-    parameter WIDTH = 8
-)(
-    input  wire [WIDTH-1:0] in1,
-    input  wire [WIDTH-1:0] in2,
-    input  wire [WIDTH-1:0] in3,
-    input  wire [WIDTH-1:0] in4,
-    output wire [WIDTH-1:0] out
-);
-
-    assign out = ~((in1 | in2) & (in3 | in4));
-
-endmodule</code></pre>
-
 
 <hr />
-<h3>Module "Not"</h3>
+<h3 id="module_Not">
+Module "Not"
+</h3>
 
 <pre>
 Parameters:
@@ -85,6 +198,11 @@ Ports:
 </pre>
 
 <p>CMOS inverter</p>
+<p>Inverter Verilog code uses keywords <code>pmos</code> and <code>nmos</code>:</p>
+<div class="codehilite"><pre><span></span><code> <span class="k">pmos</span> <span class="n">p1</span> <span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">vdd</span><span class="p">,</span> <span class="n">in</span><span class="p">);</span> <span class="c1">// out = HI(vdd) if in is LO</span>
+ <span class="k">nmos</span> <span class="n">n1</span> <span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">gnd</span><span class="p">,</span> <span class="n">in</span><span class="p">);</span> <span class="c1">// out = LO(gnd) if in is HI</span>
+</code></pre></div>
+
 <p>See book by Yamin Li, Computer principles and design in Verilog HDL.</p>
 <pre>
           +-------+-----+ vdd
@@ -106,22 +224,6 @@ Ports:
                   |
         +---------+----+ gnd
 </pre>
-<p>Source code:</p>
-<pre><code class="lang-verilog">module Not(
-    output wire out, // out = ~in
-    input wire in
-);
-    supply1 vdd; // logic 1 (power)
-    supply0 gnd; // logic 0 (ground)
 
-    // pmos (drain, source, gate);
-    pmos p1 (out, vdd, in);
-
-    // nmos (drain, source, gate);
-    nmos n1 (out, gnd, in);
-
-endmodule</code></pre>
-
-
-<hr />
+<hr /></div>
 </body></html>
