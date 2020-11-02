@@ -14,7 +14,7 @@ def parse_args():
                         #dest='inputs',
                         metavar='FILE',
                         type=argparse.FileType('r'),
-                        nargs='+',
+                        nargs='?',
                         help='Verilog file(s)')
     parser.add_argument('-o', '--output',
                         required=False,
@@ -42,6 +42,12 @@ def parse_args():
                         default=False,
                         action='store_true',
                         help='show TOC in sidebar')
+    parser.add_argument('-f',
+                        dest='flist',
+                        metavar='FILE',
+                        type=argparse.FileType('r'),
+                        nargs='+',
+                        help='Verilog files list from file')
 
 
     args = parser.parse_args()
@@ -152,19 +158,39 @@ def normalize_path(modules):
 
     modules.sort(key=lambda m: m.path, reverse=False)
 
+def handle_vlog_file(vlog_file):
+    #TODO if not is_verilog_file(vlog_file.name):
+    #    return []
+    code = vlog_file.read()
+    new_modules = parse_vlog(code)
+    for new_module in new_modules:
+        new_module.path = vlog_file.name
+
+    return new_modules
+
+def process_filelist(args):
+    modules = []
+    for fl in args.flist:
+        fnames = fl.readlines()
+        for fname in fnames:
+            with open(fname.rstrip('\n'), 'r') as vlog_file:
+                new_modules = handle_vlog_file(vlog_file)
+                modules.extend(new_modules)
+
+    return modules
+
 def main():
     args = parse_args()
 
     modules = []
 
-    for vlog_file in args.inputs:
-        #TODO if not is_verilog_file(vlog_file.name):
-        #    continue
-        code = vlog_file.read()
-        new_modules = parse_vlog(code)
-        for new_module in new_modules:
-            new_module.path = vlog_file.name
-        modules.extend(new_modules)
+    if args.inputs:
+        for vlog_file in args.inputs:
+            new_modules = handle_vlog_file(vlog_file)
+            modules.extend(new_modules)
+
+    if args.flist:
+        modules.extend(process_filelist(args))
 
     normalize_path(modules)
 

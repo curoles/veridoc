@@ -145,9 +145,24 @@ p {font-family: Verdana, Geneva, sans-serif;}
 </head>
 
 <body onload="WaveDrom.ProcessAll()">
-<div class="sidenav">    <a href="#module_cmos/Not.sv">Not</a>    <a href="#module_generic/OAI22.sv">OAI22</a></div><div class="main">
-<h3 id="module_cmos/Not.sv">
-Module "Not", cmos/Not.sv
+<div class="sidenav">    <a href="#module_blocks/Incr3.sv">Incr3</a>    <a href="#module_lib/gates/cmos/Not.sv">Not</a>    <a href="#module_lib/gates/generic/OAI22.sv">OAI22</a>    <a href="#module_lib/parts/FullAdder.sv">FullAdder</a></div><div class="main">
+<h3 id="module_blocks/Incr3.sv">
+Module "Incr3", blocks/Incr3.sv
+</h3>
+
+<pre>
+Parameters:
+
+Ports:
+    in       input    wire [2:0]
+    out      output   wire [2:0]
+</pre>
+
+<p>3-bit Incrementor block to be used in building Nx3 Fast Incrementor.</p>
+
+<hr />
+<h3 id="module_lib/gates/cmos/Not.sv">
+Module "Not", lib/gates/cmos/Not.sv
 </h3>
 
 <pre>
@@ -187,8 +202,8 @@ Ports:
 </pre>
 
 <hr />
-<h3 id="module_generic/OAI22.sv">
-Module "OAI22", generic/OAI22.sv
+<h3 id="module_lib/gates/generic/OAI22.sv">
+Module "OAI22", lib/gates/generic/OAI22.sv
 </h3>
 
 <pre>
@@ -224,6 +239,24 @@ Ports:
   ]
 ]}
 </script>
+
+<hr />
+<h3 id="module_lib/parts/FullAdder.sv">
+Module "FullAdder", lib/parts/FullAdder.sv
+</h3>
+
+<pre>
+Parameters:
+
+Ports:
+    in1      input    wire
+    in2      input    wire
+    ci       input    wire
+    sum      output   wire
+    co       output   wire
+</pre>
+
+<p>Full Adder.</p>
 
 <hr /></div>
 </body></html>

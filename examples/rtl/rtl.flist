@@ -1,0 +1,4 @@
+./examples/rtl/lib/gates/cmos/Not.sv
+./examples/rtl/lib/gates/generic/OAI22.sv
+./examples/rtl/lib/parts/FullAdder.sv
+./examples/rtl/blocks/Incr3.sv
