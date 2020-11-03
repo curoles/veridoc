@@ -93,17 +93,23 @@ module_html_template = '''
 Module "{{ m.name }}", {{m.path}}
 </h{{hdr_level}}>
 
-<pre>
-Parameters:
+<h4>Parameters:</h4>
+<ul>
 {%- for prm in m.generics %}
-    {{'%-8s'|format(prm.name)}} {{'%-8s'|format(prm.mode)}} {{prm.data_type -}}
+    <li>
+    <pre>{{prm.name}}</pre>
+    </li>
 {% endfor %}
+</ul>
 
-Ports:
+<h4>Ports:</h4>
+<ul>
 {%- for port in m.ports %}
-    {{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}
+    <li>
+    <pre>{{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}<pre>
+    </li>
 {% endfor %}
-</pre>
+</ul>
 
 {{mdesc}}
 

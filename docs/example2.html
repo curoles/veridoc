@@ -150,13 +150,21 @@ p {font-family: Verdana, Geneva, sans-serif;}
 Module "Not", cmos/Not.sv
 </h3>
 
-<pre>
-Parameters:
+<h4>Parameters:</h4>
+<ul>
+</ul>
 
-Ports:
-    out      output   wire
-    in       input    wire
-</pre>
+<h4>Ports:</h4>
+<ul>
+    <li>
+    <pre>out      output   wire<pre>
+    </li>
+
+    <li>
+    <pre>in       input    wire<pre>
+    </li>
+
+</ul>
 
 <p>CMOS inverter</p>
 <p>Inverter Verilog code uses keywords <code>pmos</code> and <code>nmos</code>:</p>
@@ -207,17 +215,37 @@ endmodule</code></pre>
 Module "OAI22", generic/OAI22.sv
 </h3>
 
-<pre>
-Parameters:
-    WIDTH    in       
+<h4>Parameters:</h4>
+<ul>
+    <li>
+    <pre>WIDTH</pre>
+    </li>
 
-Ports:
-    in1      input    wire [WIDTH-1:0]
-    in2      input    wire [WIDTH-1:0]
-    in3      input    wire [WIDTH-1:0]
-    in4      input    wire [WIDTH-1:0]
-    out      output   wire [WIDTH-1:0]
-</pre>
+</ul>
+
+<h4>Ports:</h4>
+<ul>
+    <li>
+    <pre>in1      input    wire [WIDTH-1:0]<pre>
+    </li>
+
+    <li>
+    <pre>in2      input    wire [WIDTH-1:0]<pre>
+    </li>
+
+    <li>
+    <pre>in3      input    wire [WIDTH-1:0]<pre>
+    </li>
+
+    <li>
+    <pre>in4      input    wire [WIDTH-1:0]<pre>
+    </li>
+
+    <li>
+    <pre>out      output   wire [WIDTH-1:0]<pre>
+    </li>
+
+</ul>
 
 <p>Complex gate OR-AND-Invertor</p>
 <pre>
