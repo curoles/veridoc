@@ -35,7 +35,7 @@ verilog_tokens = {
     (r'\s*(\w+)\s*,?', 'port_param'),
     (r'[);]', None, '#pop'),
     (r'//#\s*{{(.*)}}\n', 'section_meta'),
-    (r'//.*\n', None),
+    (r'//(.*)\n', 'port_comment'),
   ],
 
   'block_comment': [
@@ -118,6 +118,7 @@ def parse_verilog(text):
   saved_type = None
   mode = 'input'
   ptype = 'wire'
+  pcomment = ''
 
   metacomments = []
   parameters = []
@@ -177,7 +178,7 @@ def parse_verilog(text):
       ptype = new_ptype
 
     elif action == 'param_item':
-      generics.append(VerilogParameter(groups[0], 'in', ptype))
+      generics.append(VerilogParameter(groups[0], 'in', ptype, desc=None))
 
     elif action == 'module_port_start':
       new_mode, net_type, signed, vec_range = groups
@@ -194,7 +195,7 @@ def parse_verilog(text):
 
       # Complete pending items
       for i in param_items:
-        ports[i] = VerilogParameter(i, mode, ptype)
+        ports[i] = VerilogParameter(i, mode, ptype, desc=pcomment)
 
       param_items = []
       if len(ports) > 0:
@@ -203,6 +204,7 @@ def parse_verilog(text):
       # Start with new mode
       mode = new_mode
       ptype = new_ptype
+      pcomment = ''
 
     elif action == 'port_param':
       ident = groups[0]
@@ -210,10 +212,13 @@ def parse_verilog(text):
       param_items.append(ident)
       port_param_index += 1
 
+    elif action == 'port_comment':
+      pcomment = groups[0]
+
     elif action == 'end_module':
       # Finish any pending ports
       for i in param_items:
-        ports[i] = VerilogParameter(i, mode, ptype)
+        ports[i] = VerilogParameter(i, mode, ptype, desc=pcomment)
 
       vobj = VerilogModule(
         name,

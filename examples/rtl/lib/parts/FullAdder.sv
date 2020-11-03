@@ -4,9 +4,9 @@
 module FullAdder (
     input  wire in1,
     input  wire in2,
-    input  wire ci,
-    output wire sum,
-    output wire co
+    input  wire ci,  // carry in
+    output wire sum, // sum of 2 bits
+    output wire co   // carry out
 );
 
     assign sum = (in1 ^ in2) ^ ci;

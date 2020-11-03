@@ -167,11 +167,11 @@ Module "Incr3", blocks/Incr3.sv
 <h4>Ports:</h4>
 <ul>
     <li>
-    <pre>in       input    wire [2:0]<pre>
+    <pre>in       input    wire [2:0]</pre>
     </li>
 
     <li>
-    <pre>out      output   wire [2:0]<pre>
+    <pre>out      output   wire [2:0]</pre>
     </li>
 
 </ul>
@@ -190,11 +190,13 @@ Module "Not", lib/gates/cmos/Not.sv
 <h4>Ports:</h4>
 <ul>
     <li>
-    <pre>out      output   wire<pre>
+    <pre>out      output   wire</pre>
+     out = ~in
+    
     </li>
 
     <li>
-    <pre>in       input    wire<pre>
+    <pre>in       input    wire</pre>
     </li>
 
 </ul>
@@ -243,23 +245,23 @@ Module "OAI22", lib/gates/generic/OAI22.sv
 <h4>Ports:</h4>
 <ul>
     <li>
-    <pre>in1      input    wire [WIDTH-1:0]<pre>
+    <pre>in1      input    wire [WIDTH-1:0]</pre>
     </li>
 
     <li>
-    <pre>in2      input    wire [WIDTH-1:0]<pre>
+    <pre>in2      input    wire [WIDTH-1:0]</pre>
     </li>
 
     <li>
-    <pre>in3      input    wire [WIDTH-1:0]<pre>
+    <pre>in3      input    wire [WIDTH-1:0]</pre>
     </li>
 
     <li>
-    <pre>in4      input    wire [WIDTH-1:0]<pre>
+    <pre>in4      input    wire [WIDTH-1:0]</pre>
     </li>
 
     <li>
-    <pre>out      output   wire [WIDTH-1:0]<pre>
+    <pre>out      output   wire [WIDTH-1:0]</pre>
     </li>
 
 </ul>
@@ -298,23 +300,29 @@ Module "FullAdder", lib/parts/FullAdder.sv
 <h4>Ports:</h4>
 <ul>
     <li>
-    <pre>in1      input    wire<pre>
+    <pre>in1      input    wire</pre>
     </li>
 
     <li>
-    <pre>in2      input    wire<pre>
+    <pre>in2      input    wire</pre>
     </li>
 
     <li>
-    <pre>ci       input    wire<pre>
+    <pre>ci       input    wire</pre>
+     carry in
+    
     </li>
 
     <li>
-    <pre>sum      output   wire<pre>
+    <pre>sum      output   wire</pre>
+     sum of 2 bits
+    
     </li>
 
     <li>
-    <pre>co       output   wire<pre>
+    <pre>co       output   wire</pre>
+     carry out
+    
     </li>
 
 </ul>

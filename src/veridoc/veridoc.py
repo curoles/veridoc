@@ -106,7 +106,10 @@ Module "{{ m.name }}", {{m.path}}
 <ul>
 {%- for port in m.ports %}
     <li>
-    <pre>{{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}<pre>
+    <pre>{{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}</pre>
+    {%- if port.desc %}
+    {{port.desc}}
+    {% endif %}
     </li>
 {% endfor %}
 </ul>
