@@ -42,4 +42,24 @@ veridoc -s --inline -o example2.html <path>/OAI22.sv <path>/Not.sv
 
 See [HTML output example2.html](example2.html).
 
+Example 3 - File with a list of Verilog files, TOC sidebar
+----------------------------------------------------------
 
+```terminal
+veridoc -s --toc-sidebar -o example3.html -f ./rtl/rtl.flist
+```
+
+- instead of listing Verilog files one by one as positional
+  arguments we use option `-f ./rtl/rtl.flist` where
+  contents of `rtl.flist` is:
+  ```
+  ./rtl/lib/gates/cmos/Not.sv
+  ./rtl/lib/gates/generic/OAI22.sv
+  ./rtl/lib/parts/FullAdder.sv
+  ./rtl/blocks/Incr3.sv
+  ```
+- option `--toc-sidebar` tells to show vertical sidebar
+  with a list of all *modules*.
+
+
+See [HTML output example3.html](example3.html).

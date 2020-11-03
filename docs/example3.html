@@ -97,7 +97,7 @@ p {font-family: Verdana, Geneva, sans-serif;}
  /* The sidebar menu */
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 10rem; /* Set the width of the sidebar */
+  width: 15rem; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
@@ -130,7 +130,7 @@ p {font-family: Verdana, Geneva, sans-serif;}
 
 /* Style page content */
 .main {
-  margin-left: 10rem; /* Same as the width of the sidebar */
+  margin-left: 15rem; /* Same as the width of the sidebar */
   padding: 0px 10px;
 }
 
@@ -145,7 +145,17 @@ p {font-family: Verdana, Geneva, sans-serif;}
 </head>
 
 <body onload="WaveDrom.ProcessAll()">
-<div class="sidenav">    <a href="#module_blocks/Incr3.sv">Incr3</a>    <a href="#module_lib/gates/cmos/Not.sv">Not</a>    <a href="#module_lib/gates/generic/OAI22.sv">OAI22</a>    <a href="#module_lib/parts/FullAdder.sv">FullAdder</a></div><div class="main">
+<div class="sidenav">
+    <h3>- blocks</h3>
+    <a href="#module_blocks/Incr3.sv">Incr3</a>
+    <h3>- lib/gates/cmos</h3>
+    <a href="#module_lib/gates/cmos/Not.sv">Not</a>
+    <h3>- lib/gates/generic</h3>
+    <a href="#module_lib/gates/generic/OAI22.sv">OAI22</a>
+    <h3>- lib/parts</h3>
+    <a href="#module_lib/parts/FullAdder.sv">FullAdder</a>
+</div>
+<div class="main">
 <h3 id="module_blocks/Incr3.sv">
 Module "Incr3", blocks/Incr3.sv
 </h3>

@@ -173,6 +173,7 @@ def process_filelist(args):
     for fl in args.flist:
         fnames = fl.readlines()
         for fname in fnames:
+            #FIXME TODO expand $VAR, $(VAR), ${VAR}
             with open(fname.rstrip('\n'), 'r') as vlog_file:
                 new_modules = handle_vlog_file(vlog_file)
                 modules.extend(new_modules)

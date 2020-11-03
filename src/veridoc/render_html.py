@@ -1,3 +1,4 @@
+import os
 from pygments.formatters import HtmlFormatter
 
 veridoc_css = '''
@@ -6,7 +7,7 @@ p {font-family: Verdana, Geneva, sans-serif;}
  /* The sidebar menu */
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */
-  width: 10rem; /* Set the width of the sidebar */
+  width: 15rem; /* Set the width of the sidebar */
   position: fixed; /* Fixed Sidebar (stay in place on scroll) */
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
@@ -39,7 +40,7 @@ p {font-family: Verdana, Geneva, sans-serif;}
 
 /* Style page content */
 .main {
-  margin-left: 10rem; /* Same as the width of the sidebar */
+  margin-left: 15rem; /* Same as the width of the sidebar */
   padding: 0px 10px;
 }
 
@@ -86,7 +87,12 @@ def render_html_file_epilog(output):
     output.write("\n</body></html>\n")
 
 def render_sidebar(output, modules):
-    output.write('<div class="sidenav">')
+    output.write('<div class="sidenav">\n')
+    prefix = ''
     for m in modules:
-        output.write(f'    <a href="#module_{m.path}">{m.name}</a>');
-    output.write('</div>')
+        new_prefix = os.path.dirname(m.path)
+        if new_prefix and prefix != new_prefix:
+            output.write(f'    <h3>- {new_prefix}</h3>\n')
+            prefix = new_prefix
+        output.write(f'    <a href="#module_{m.path}">{m.name}</a>\n');
+    output.write('</div>\n')
