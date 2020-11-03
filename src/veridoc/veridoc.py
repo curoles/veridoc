@@ -14,7 +14,7 @@ def parse_args():
                         #dest='inputs',
                         metavar='FILE',
                         type=argparse.FileType('r'),
-                        nargs='?',
+                        nargs='*',
                         help='Verilog file(s)')
     parser.add_argument('-o', '--output',
                         required=False,
