@@ -3,7 +3,6 @@ TODO list
 
 #. document dark_circuit and add link to it in README as an example
 #. css to have fixed/limited width of html body, ``--html-width Nel/px``.
-#. Extract port doc comment.
 #. Extract parameter doc comment.
 #. expand $VAR, $(VAR), ${VAR} in file list
 #. Add option ``--toc``, show list of modules, sort by "path".
@@ -11,6 +10,7 @@ TODO list
 DONE list
 =========
 
+#. Extract port doc comment.
 #. Add option ``--filelist`` as in Verilog; process file list.
 #. Remove common prefix from module.path for all modules with  os.path.commonprefix.
 #. Show file location, add module attr "path".

@@ -97,7 +97,10 @@ Module "{{ m.name }}", {{m.path}}
 <ul>
 {%- for prm in m.generics %}
     <li>
-    <pre>{{prm.name}}</pre>
+    {{prm.name}}
+    {%- if prm.desc %}
+    // {{prm.desc}}
+    {%- endif %}
     </li>
 {% endfor %}
 </ul>
@@ -109,7 +112,7 @@ Module "{{ m.name }}", {{m.path}}
     <pre>{{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}</pre>
     {%- if port.desc %}
     {{port.desc}}
-    {% endif %}
+    {%- endif %}
     </li>
 {% endfor %}
 </ul>

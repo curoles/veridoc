@@ -29,6 +29,7 @@ verilog_tokens = {
     (r'\s*(\w+)[^),;]*', 'param_item'),
     (r',', None),
     (r'[);]', None, '#pop'),
+    # FIXME does not work (r'//(.*)\n', 'port_comment'),
   ],
   'module_port': [
     (r'\s*(input|inout|output)\s*(reg|supply0|supply1|tri|triand|trior|tri0|tri1|wire|wand|wor)?\s*(signed)?\s*(\[[^]]+\])?', 'module_port_start'),
@@ -176,9 +177,10 @@ def parse_verilog(text):
         new_ptype += ' ' + vec_range
 
       ptype = new_ptype
+      pcomment = ''
 
     elif action == 'param_item':
-      generics.append(VerilogParameter(groups[0], 'in', ptype, desc=None))
+      generics.append(VerilogParameter(groups[0], 'in', ptype, desc=pcomment))
 
     elif action == 'module_port_start':
       new_mode, net_type, signed, vec_range = groups

@@ -192,7 +192,6 @@ Module "Not", lib/gates/cmos/Not.sv
     <li>
     <pre>out      output   wire</pre>
      out = ~in
-    
     </li>
 
     <li>
@@ -237,7 +236,7 @@ Module "OAI22", lib/gates/generic/OAI22.sv
 <h4>Parameters:</h4>
 <ul>
     <li>
-    <pre>WIDTH</pre>
+    WIDTH
     </li>
 
 </ul>
@@ -246,22 +245,27 @@ Module "OAI22", lib/gates/generic/OAI22.sv
 <ul>
     <li>
     <pre>in1      input    wire [WIDTH-1:0]</pre>
+     to be OR-ed with in2
     </li>
 
     <li>
     <pre>in2      input    wire [WIDTH-1:0]</pre>
+     to be OR-ed with in1
     </li>
 
     <li>
     <pre>in3      input    wire [WIDTH-1:0]</pre>
+     to be OR-ed with in4
     </li>
 
     <li>
     <pre>in4      input    wire [WIDTH-1:0]</pre>
+     to be OR-ed with in3
     </li>
 
     <li>
     <pre>out      output   wire [WIDTH-1:0]</pre>
+     NAND the results of two ORs
     </li>
 
 </ul>
@@ -310,19 +314,16 @@ Module "FullAdder", lib/parts/FullAdder.sv
     <li>
     <pre>ci       input    wire</pre>
      carry in
-    
     </li>
 
     <li>
     <pre>sum      output   wire</pre>
      sum of 2 bits
-    
     </li>
 
     <li>
     <pre>co       output   wire</pre>
      carry out
-    
     </li>
 
 </ul>
