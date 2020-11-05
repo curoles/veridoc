@@ -48,6 +48,12 @@ def parse_args():
                         type=argparse.FileType('r'),
                         nargs='+',
                         help='Verilog files list from file')
+    parser.add_argument('-F',
+                        dest='Flist',
+                        metavar='FILE',
+                        type=argparse.FileType('r'),
+                        nargs='+',
+                        help='relative path Verilog files list from file')
 
 
     args = parser.parse_args()
@@ -163,7 +169,7 @@ def parse_vlog(code):
     return modules
 
 def normalize_path(modules):
-    paths = [m.path for m in modules]
+    paths = [os.path.dirname(m.path) for m in modules]
     common_prefix = os.path.commonprefix(paths)
     for m in modules:
         m.path = m.path.replace(common_prefix, '')
@@ -180,13 +186,17 @@ def handle_vlog_file(vlog_file):
 
     return new_modules
 
-def process_filelist(args):
+def process_filelist(args, relative):
     modules = []
-    for fl in args.flist:
+    flist = args.Flist if relative else args.flist
+    for fl in flist:
         fnames = fl.readlines()
         for fname in fnames:
             #FIXME TODO expand $VAR, $(VAR), ${VAR}
-            with open(fname.rstrip('\n'), 'r') as vlog_file:
+            fpath = fname.rstrip('\n')
+            if relative:
+                fpath = os.path.join(os.path.dirname(fl.name), fpath)
+            with open(fpath, 'r') as vlog_file:
                 new_modules = handle_vlog_file(vlog_file)
                 modules.extend(new_modules)
 
@@ -203,7 +213,10 @@ def main():
             modules.extend(new_modules)
 
     if args.flist:
-        modules.extend(process_filelist(args))
+        modules.extend(process_filelist(args, False))
+
+    if args.Flist:
+        modules.extend(process_filelist(args, True))
 
     normalize_path(modules)
 

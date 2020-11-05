@@ -7,5 +7,6 @@ it extracts name of a *module*, names of ports and generic parameters.
 Block comment immediately above declaration of *module* is treated
 as a documentation of the module.
 
-Find additional information and examples at https://curoles.github.io/veridoc/.
+Find additional information and examples at https://curoles.github.io/veridoc/ and
+https://curoles.github.io/dark-circuit/.
 
