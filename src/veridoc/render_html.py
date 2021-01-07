@@ -4,6 +4,20 @@ from pygments.formatters import HtmlFormatter
 veridoc_css = '''
 p {font-family: Verdana, Geneva, sans-serif;}
 
+table, th, td {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 0.5rem;
+}
+tr:nth-child(even) {
+  background-color: #eee;
+}
+th {
+  background-color: #efe;
+}
+
  /* The sidebar menu */
 .sidenav {
   height: 100%; /* Full-height: remove this if you want "auto" height */

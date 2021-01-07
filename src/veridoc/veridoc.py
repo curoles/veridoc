@@ -112,16 +112,19 @@ Module "{{ m.name }}", {{m.path}}
 </ul>
 
 <h4>Ports:</h4>
-<ul>
+<table style="width:100%">
+    <th>Name</th> <th>Direction</th> <th>Type</th> <th>Description</th>
 {%- for port in m.ports %}
-    <li>
-    <pre>{{'%-8s'|format(port.name)}} {{'%-8s'|format(port.mode)}} {{port.data_type -}}</pre>
+    <tr>
+    <td>{{port.name}}</td> <td>{{port.mode}}</td> <td>{{port.data_type}}</td>
+    <td>
     {%- if port.desc %}
     {{port.desc}}
     {%- endif %}
-    </li>
+    </td>
+    </tr>
 {% endfor %}
-</ul>
+</table>
 
 {{mdesc}}
 
